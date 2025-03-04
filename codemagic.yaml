@@ -13,7 +13,7 @@ workflows:
         script: |
           wget https://dot.net/v1/dotnet-install.sh
           chmod +x dotnet-install.sh
-          ./dotnet-install.sh -c $DOTNET_VERSION --install-dir $HOME/.dotnet
+          ./dotnet-install.sh -c 8.0 --install-dir $HOME/.dotnet
           echo 'export PATH=$HOME/.dotnet:$PATH' >> $HOME/.bash_profile
           source $HOME/.bash_profile
       - name: Check .NET SDK
