@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OCC.Pages.GipePage"
+              BackgroundColor="#fff"
+             x:Name="this"
+             Shell.NavBarHasShadow="False"
+             Shell.NavBarIsVisible="True"
+             NavigationPage.HasNavigationBar="True"
+             HideSoftInputOnTapped="True"
+            BindingContext="{x:Reference Name=this}"
+             Title="SC Hesapla">
+  
+    <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowDefinitions="Auto,*,Auto">
+
+        
+        
+        <StackLayout Margin="20,5" Orientation="Horizontal" Spacing="10">
+
+            <Frame Grid.Column="0" Padding="0"  HasShadow="False"  HeightRequest="85" CornerRadius="10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="#fff">
+                <StackLayout Padding="10,10,0,10" Spacing="3" VerticalOptions="CenterAndExpand">
+                    <Label Text="Toplam Maliyet" FontSize="13" HorizontalTextAlignment="Center" TextColor="#575757"></Label>
+                    <StackLayout Orientation="Horizontal" Spacing="3" HorizontalOptions="Center">
+                        <Label Text="{Binding Toplam,StringFormat='{0:F2}'}" FontAttributes="Bold" TextColor="#575757" HorizontalTextAlignment="Center" FontSize="25"></Label>
+                        <Label Text="{Binding Money}" FontAttributes="Bold" TextColor="#575757" HorizontalTextAlignment="Center" FontSize="25"></Label>
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+            <Frame Grid.Column="1" Padding="0" HasShadow="False" HeightRequest="85" CornerRadius="10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="#f7941d">
+                <StackLayout Padding="10,10,0,10" Spacing="3"  VerticalOptions="CenterAndExpand">
+                    <Label Text="Birim Maliyet" FontSize="13"  HorizontalTextAlignment="Center" TextColor="#fff"></Label>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="3">
+                        <Label Text="{Binding Birim,StringFormat='{0:F2}'}" FontAttributes="Bold" TextColor="#FFF" HorizontalTextAlignment="Center" FontSize="25"></Label>
+                        <Label Text="{Binding Money}" FontAttributes="Bold" TextColor="#fff" HorizontalTextAlignment="Center"  FontSize="25"></Label>
+
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+
+        </StackLayout>
+        
+     
+            <ScrollView Grid.Row="1" VerticalScrollBarVisibility="Default" VerticalOptions="FillAndExpand"  Margin="20,0">
+                <StackLayout Spacing="20" >
+
+
+
+                    <Frame Padding="10" CornerRadius="10" BackgroundColor="#fff"  Margin="0,10,0,0" HasShadow="False">
+
+
+                        <Grid BackgroundColor="#FFF" RowSpacing="10" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+
+
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Row="0" Grid.Column="0" Text="İplik Denyesi" FontAttributes="Bold" VerticalOptions="CenterAndExpand" TextColor="#575757" FontSize="16"></Label>
+                            <Entry Grid.Row="0" Grid.Column="1" Placeholder="0" Text="{Binding ACModel.iplik_denyesi}" Keyboard="Numeric" TextColor="#575757" HorizontalTextAlignment="Center" VerticalOptions="Center" FontSize="18" FontAttributes="Bold"></Entry>
+
+                            <Label Grid.Row="1" Grid.Column="0" Text="Likra Denyesi" FontAttributes="Bold" VerticalOptions="CenterAndExpand" TextColor="#575757" FontSize="16"></Label>
+                            <Entry Grid.Row="1" Grid.Column="1" Placeholder="0" Text="{Binding ACModel.likra_denyesi}" Keyboard="Numeric" TextColor="#575757" HorizontalTextAlignment="Center" VerticalOptions="Center" FontSize="18" FontAttributes="Bold"></Entry>
+
+                            <Label Grid.Row="2" Grid.Column="0" Text="Çekim" FontAttributes="Bold" VerticalOptions="CenterAndExpand" TextColor="#575757" FontSize="16"></Label>
+                            <Entry Grid.Row="2" Grid.Column="1" Placeholder="0" Text="{Binding ACModel.cekim}" Keyboard="Numeric" TextColor="#575757" HorizontalTextAlignment="Center" VerticalOptions="Center" FontSize="18" FontAttributes="Bold"></Entry>
+
+                            <Label Grid.Row="3" Grid.Column="0" Text="Makine Hızı" FontAttributes="Bold" VerticalOptions="CenterAndExpand" TextColor="#575757" FontSize="16"></Label>
+                            <Entry Grid.Row="3" Grid.Column="1" Placeholder="0" Text="{Binding ACModel.makina_hiz}" Keyboard="Numeric" TextColor="#575757" HorizontalTextAlignment="Center" VerticalOptions="Center" FontSize="18" FontAttributes="Bold"></Entry>
+
+                            <Label Grid.Row="4" Grid.Column="0" Text="Tur Sayısı" FontAttributes="Bold" VerticalOptions="CenterAndExpand" TextColor="#575757" FontSize="16"></Label>
+                            <Entry Grid.Row="4" Grid.Column="1" Placeholder="0" Text="{Binding ACModel.tur_sayisi}" Keyboard="Numeric" TextColor="#575757" HorizontalTextAlignment="Center" VerticalOptions="Center" FontSize="18" FontAttributes="Bold"></Entry>
+
+                            <Label Grid.Row="5" Grid.Column="0" Text="Kullanılan Göz Miktarı" FontAttributes="Bold" VerticalOptions="CenterAndExpand" TextColor="#575757" FontSize="16"></Label>
+                            <Entry Grid.Row="5" Grid.Column="1" Placeholder="0" Text="{Binding ACModel.kullanilan_goz_miktar}" Keyboard="Numeric" TextColor="#575757" HorizontalTextAlignment="Center" VerticalOptions="Center" FontSize="18" FontAttributes="Bold"></Entry>
+
+
+
+
+
+                        </Grid>
+                    </Frame>
+
+                    <Frame Padding="15,10" HasShadow="False" CornerRadius="10" BackgroundColor="#215a99">
+                        <StackLayout HorizontalOptions="FillAndExpand">
+
+                            <StackLayout Orientation="Horizontal">
+                                <Label  Text="24 Saatlik Üretim:" FontAttributes="Bold" VerticalOptions="CenterAndExpand" TextColor="#fff" FontSize="14"></Label>
+                                <Label  Text="{Binding GunlukUretim,StringFormat='{0:F2}'}" TextColor="#fff" HorizontalTextAlignment="Center" VerticalOptions="Center" HorizontalOptions="EndAndExpand" FontSize="16" FontAttributes="Bold"></Label>
+
+                            </StackLayout>
+                            <StackLayout Orientation="Horizontal">
+                                <Label  Text="Kullanılın İplik:" FontAttributes="Bold" VerticalOptions="CenterAndExpand" TextColor="#fff" FontSize="14"></Label>
+                                <Label  Text="{Binding KullanilanIplik,StringFormat='{0:F2}'}" TextColor="#fff" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="Center" VerticalOptions="Center" FontSize="16" FontAttributes="Bold"></Label>
+
+                            </StackLayout>
+                            <StackLayout Orientation="Horizontal">
+                                <Label   Text="Kullanılan Likra:" FontAttributes="Bold" VerticalOptions="CenterAndExpand" TextColor="#fff" FontSize="14"></Label>
+                                <Label  Text="{Binding KullanilanLikra,StringFormat='{0:F2}'}" TextColor="#fff" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="Center" VerticalOptions="Center" FontSize="16" FontAttributes="Bold"></Label>
+                            </StackLayout>
+
+                        </StackLayout>
+                    </Frame>
+
+
+                    <Frame Padding="10" CornerRadius="10" BackgroundColor="#fff" HasShadow="False" >
+
+
+                        <Grid BackgroundColor="#FFF" RowSpacing="10" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+
+
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+
+                            <Label Grid.Row="0" Grid.Column="0" Text="Birim İp Fiyatı" FontAttributes="Bold" VerticalOptions="CenterAndExpand" TextColor="#575757" FontSize="16"></Label>
+                            <Entry Grid.Row="0" Grid.Column="1" Placeholder="0" Text="{Binding ACModel.birim_ip_fiyat}" Keyboard="Numeric" TextColor="#575757" HorizontalTextAlignment="Center" VerticalOptions="Center" FontSize="18" FontAttributes="Bold"></Entry>
+
+                            <Label Grid.Row="1" Grid.Column="0" Text="Birim Likra Fiyatı" FontAttributes="Bold" VerticalOptions="CenterAndExpand" TextColor="#575757" FontSize="16"></Label>
+                            <Entry Grid.Row="1" Grid.Column="1" Placeholder="0" Text="{Binding ACModel.birim_likra_fiyat}" Keyboard="Numeric"  TextColor="#575757" HorizontalTextAlignment="Center" VerticalOptions="Center" FontSize="18" FontAttributes="Bold"></Entry>
+
+                            <Label Grid.Row="2" Grid.Column="0" Text="Günlük Makine Maliyeti" FontAttributes="Bold" VerticalOptions="CenterAndExpand" TextColor="#575757" FontSize="16"></Label>
+                            <Entry Grid.Row="2" Grid.Column="1" Placeholder="0" Text="{Binding ACModel.gunluk_makine_maliyet}" Keyboard="Numeric"  TextColor="#575757" HorizontalTextAlignment="Center" VerticalOptions="Center" FontSize="18" FontAttributes="Bold"></Entry>
+
+
+
+                        </Grid>
+                    </Frame>
+             
+            </StackLayout>
+            </ScrollView>
+
+        <Grid  Grid.Row="2" ColumnSpacing="10" Margin="20,20,20,20" VerticalOptions="EndAndExpand" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Frame HasShadow="False" Grid.Column="0" CornerRadius="10" Padding="15" BackgroundColor="#215a99" HeightRequest="55">
+
+                <Label Text="Maliyet Hesapla" VerticalOptions="CenterAndExpand" HorizontalTextAlignment="Center" FontAttributes="Bold" FontSize="20" TextColor="#fff"></Label>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                </Frame.GestureRecognizers>
+
+            </Frame>
+
+
+            <Frame HasShadow="False"  Grid.Column="1"  CornerRadius="10" Padding="10" BackgroundColor="#215a99" HeightRequest="55">
+                <Label Text="{Binding Money}" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" FontAttributes="Bold" FontSize="20" TextColor="#fff"></Label>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="Change_Money"></TapGestureRecognizer>
+                </Frame.GestureRecognizers>
+
+            </Frame>
+        </Grid>
+
+    </Grid>
+</ContentPage>

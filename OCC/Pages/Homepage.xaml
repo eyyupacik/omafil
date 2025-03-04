@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OCC.Pages.Homepage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#fff"
+             NavigationPage.HasNavigationBar="False">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <VerticalStackLayout Grid.Row="0" VerticalOptions="FillAndExpand">
+            <StackLayout VerticalOptions="FillAndExpand">
+                <StackLayout Margin="0,80,0,20">
+                    <Image Source="logo.png" HeightRequest="110" />
+                </StackLayout>
+
+                <StackLayout Margin="45,0,45,45" Spacing="10" VerticalOptions="FillAndExpand">
+                    <Frame HasShadow="False" HeightRequest="70" BackgroundColor="#215a99" BorderColor="#215a99">
+                        <Label FontSize="20" VerticalOptions="CenterAndExpand" TextColor="White" 
+                               Text="SC HESAPLA" HorizontalOptions="CenterAndExpand" />
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Clicked_Gipe" />
+                        </Frame.GestureRecognizers>
+                    </Frame>
+
+                    <Frame HasShadow="False" HeightRequest="70" BackgroundColor="#f7941d" BorderColor="#f7941d">
+                        <Label FontSize="20" VerticalOptions="CenterAndExpand" Text="AC HESAPLA" 
+                               TextColor="White" HorizontalOptions="CenterAndExpand" />
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Clicked_Ac" />
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                </StackLayout>
+            </StackLayout>
+        </VerticalStackLayout>
+
+        <StackLayout Grid.Row="1" Margin="30" VerticalOptions="End">
+            <Label TextColor="#444" Text="Version 2.0" />
+            <Label TextColor="#444" Text="Dart's Innovation" />
+        </StackLayout>
+    </Grid>
+
+</ContentPage>
