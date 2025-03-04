@@ -7,7 +7,7 @@ workflows:
       vars:
         DOTNET_VERSION: 8.0.100 # Kullanılacak .NET SDK versiyonu
     integrations:
-      app_store_connect: app-transfer
+      app_store_connect: ea admin
     scripts:
       - name: Install .NET SDK
         script: |
