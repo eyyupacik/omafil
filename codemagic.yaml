@@ -1,14 +1,13 @@
 workflows:
   ios-release:
     name: iOS Release Workflow
-    instance_type: mac_mini_m1 # Cloud Mac gereksinimi
+    instance_type: mac_mini_m1
     environment:
       xcode: latest
       vars:
         DOTNET_VERSION: 8.0.100 # Kullanılacak .NET SDK versiyonu
     integrations:
       app_store_connect: Codemagic API Key
-        auth: integration
     scripts:
       - name: Install .NET SDK
         script: |
@@ -17,11 +16,11 @@ workflows:
           ./dotnet-install.sh -c $DOTNET_VERSION --install-dir $HOME/.dotnet
           echo 'export PATH=$HOME/.dotnet:$PATH' >> $HOME/.bash_profile
           source $HOME/.bash_profile
-      - name: Check .NET SDK Version
+      - name: Check .NET SDK
         script: |
           export PATH=$HOME/.dotnet:$PATH
           dotnet --info
-      - name: Restore NuGet Packages
+      - name: Restore Dependencies
         script: |
           export PATH=$HOME/.dotnet:$PATH
           dotnet restore
