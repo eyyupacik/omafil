@@ -1,25 +1,38 @@
 workflows:
-  maui-ios-build:
-    name: ".NET MAUI iOS Build"
+  ios-release:
+    name: iOS Release Workflow
+    instance_type: mac_mini_m1
     environment:
-      flutter: stable
+      groups:
+        - apple_credentials # API Key değişkenlerini Codemagic dashboard'dan ayarla
       xcode: latest
-      vars:
-        DOTNET_VERSION: "8.0" # Güncel .NET versiyonunu kullanın
+      cocoapods: default
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+          source: true
     scripts:
-      - name: .NET SDK’yı yükle
+      - name: Restore dependencies
         script: |
-          curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel 8.0
-          export PATH="$HOME/.dotnet:$PATH"
-      - name: iOS için MAUI uygulamasını derle
+          nuget restore
+      - name: Build .NET MAUI iOS app
         script: |
-          dotnet build YourProject.csproj -c Release -f net8.0-ios
-      - name: IPA dosyasını oluştur
+          dotnet publish -f:net8.0-ios -c:Release -p:RuntimeIdentifier=ios-arm64 -p:ArchiveOnBuild=true -p:BuildIpa=true
+      - name: Export .ipa for TestFlight
         script: |
-          dotnet publish YourProject.csproj -c Release -f net8.0-ios -o ./output
+          mkdir -p build_output
+          cp -R "$(find . -name '*.ipa')" build_output/
     artifacts:
-      - output/**/*.ipa # IPA dosyasını kaydet
+      - build_output/*.ipa
+    app_store_connect:
+      auth: api_key
+      key_id: $APP_STORE_KEY_ID # Codemagic'de tanımladığın değişkenleri kullan
+      issuer_id: $APP_STORE_ISSUER_ID
+      key: $APP_STORE_API_KEY_P8
     publishing:
       app_store_connect:
-        auth: integration
-        submit_to_testflight: true
+        auth: api_key
+        submit_to_testflight: true # TestFlight'a otomatik yükler
