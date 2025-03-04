@@ -4,7 +4,7 @@ workflows:
     instance_type: mac_mini_m1
     environment:
       groups:
-        - apple_credentials # API Key değişkenlerini Codemagic dashboard'dan ayarla
+        - apple_credentials # Codemagic’de tanımladığın değişkenler
       xcode: latest
       cocoapods: default
     triggering:
@@ -27,12 +27,7 @@ workflows:
           cp -R "$(find . -name '*.ipa')" build_output/
     artifacts:
       - build_output/*.ipa
-    app_store_connect:
-      auth: api_key
-      key_id: $APP_STORE_KEY_ID # Codemagic'de tanımladığın değişkenleri kullan
-      issuer_id: $APP_STORE_ISSUER_ID
-      key: $APP_STORE_API_KEY_P8
     publishing:
       app_store_connect:
-        auth: api_key
-        submit_to_testflight: true # TestFlight'a otomatik yükler
+        auth: integration # API Key yerine "integration" olmalı
+        submit_to_testflight: true
