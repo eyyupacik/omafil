@@ -16,6 +16,16 @@ workflows:
           ./dotnet-install.sh -c 8.0 --install-dir $HOME/.dotnet
           echo 'export PATH=$HOME/.dotnet:$PATH' >> $HOME/.bash_profile
           source $HOME/.bash_profile
+      - name: Install MAUI Workloads
+        script: |
+          export PATH=$HOME/.dotnet:$HOME/.dotnet/tools:$PATH
+          dotnet workload install maui-ios --ignore-failed-sources
+          dotnet workload restore
+          dotnet --info
+      - name: Check Installed Workloads
+        script: |
+          export PATH=$HOME/.dotnet:$HOME/.dotnet/tools:$PATH
+          dotnet workload list
       - name: Check .NET SDK
         script: |
           export PATH=$HOME/.dotnet:$PATH
