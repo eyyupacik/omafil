@@ -3,8 +3,6 @@ workflows:
     name: iOS Release Workflow
     instance_type: mac_mini_m1
     environment:
-      groups:
-        - ios_credentials
       xcode: latest
       vars:
         DOTNET_VERSION: 8.0.100 # Kullanılacak .NET SDK versiyonu
