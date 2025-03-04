@@ -8,19 +8,23 @@ workflows:
         DOTNET_VERSION: 8.0.100 # Kullanılacak .NET SDK versiyonu
     integrations:
       app_store_connect: Codemagic API Key
-    scripts:
-      - name: Install .NET SDK
-        script: |
-          wget https://dot.net/v1/dotnet-install.sh
-          chmod +x dotnet-install.sh
-          ./dotnet-install.sh -c $DOTNET_VERSION --install-dir $HOME/.dotnet
-          export PATH="$HOME/.dotnet:$PATH"
-      - name: Check .NET SDK
-        script: |
-          dotnet --info
-      - name: Build .NET MAUI iOS App
-        script: |
-          dotnet publish -f:net8.0-ios -c:Release -p:RuntimeIdentifier=ios-arm64 -p:ArchiveOnBuild=true -p:BuildIpa=true
+      scripts:
+        - name: Install .NET SDK
+          script: |
+            wget https://dot.net/v1/dotnet-install.sh
+            chmod +x dotnet-install.sh
+            ./dotnet-install.sh -c $DOTNET_VERSION --install-dir $HOME/.dotnet
+            echo 'export PATH=$HOME/.dotnet:$PATH' >> $HOME/.bashrc
+            source $HOME/.bashrc
+            echo "✅ .NET SDK successfully installed!"
+        - name: Check .NET SDK
+          script: |
+            export PATH=$HOME/.dotnet:$PATH
+            dotnet --info
+        - name: Build .NET MAUI iOS App
+          script: |
+            export PATH=$HOME/.dotnet:$PATH
+            dotnet publish -f:net8.0-ios -c:Release -p:RuntimeIdentifier=ios-arm64 -p:ArchiveOnBuild=true -p:BuildIpa=true
     artifacts:
       - $(find . -name "*.ipa")
     publishing:
