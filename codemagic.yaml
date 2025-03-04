@@ -1,13 +1,11 @@
 workflows:
-  ios-release:
-    name: iOS Release Workflow
+  ios-build:
+    name: iOS Build Workflow
     instance_type: mac_mini_m1
     environment:
       xcode: latest
       vars:
         DOTNET_VERSION: 8.0.100 # Kullanılacak .NET SDK versiyonu
-    integrations:
-      app_store_connect: ea admin
     scripts:
       - name: Install .NET SDK
         script: |
@@ -59,7 +57,3 @@ workflows:
           dotnet publish -f:net8.0-ios -c:Release -p:RuntimeIdentifier=ios-arm64 -p:ArchiveOnBuild=true -p:BuildIpa=true
     artifacts:
       - $(find . -name "*.ipa")
-    publishing:
-      app_store_connect:
-        auth: integration
-        submit_to_testflight: true
