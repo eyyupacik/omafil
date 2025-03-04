@@ -7,7 +7,7 @@ workflows:
       vars:
         DOTNET_VERSION: 8.0.100 # Kullanılacak .NET SDK versiyonu
     integrations:
-      app_store_connect: Codemagic API Key
+      app_store_connect: app-transfer
     scripts:
       - name: Install .NET SDK
         script: |
@@ -39,7 +39,7 @@ workflows:
           export PATH=$HOME/.dotnet:$PATH
           dotnet publish -f:net8.0-ios -c:Release -p:RuntimeIdentifier=ios-arm64 -p:ArchiveOnBuild=true -p:BuildIpa=true
     artifacts:
-      - $(find . -name "*.ipa") # Oluşturulan IPA dosyasını kaydet
+      - $(find . -name "*.ipa")
     publishing:
       app_store_connect:
         auth: integration
