@@ -1,16 +1,18 @@
 workflows:
   ios-release:
     name: iOS Release Workflow
-    instance_type: mac_mini_m1 # Cloud Mac kullanımı için
+    instance_type: mac_mini_m1
     environment:
       xcode: latest
+    integrations:
+      app_store_connect: Codemagic API Key
     scripts:
       - name: Build .NET MAUI iOS App
         script: |
           dotnet publish -f:net8.0-ios -c:Release -p:RuntimeIdentifier=ios-arm64 -p:ArchiveOnBuild=true -p:BuildIpa=true
     artifacts:
-      - $(find . -name "*.ipa") # Oluşturulan .ipa dosyasını kaydet
+      - $(find . -name "*.ipa")
     publishing:
       app_store_connect:
-        auth: integration # Apple Developer hesabını Codemagic'de bağlaman gerekli
-        submit_to_testflight: true # TestFlight'a yükle
+        auth: integration
+        submit_to_testflight: true
