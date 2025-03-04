@@ -1,5 +1,27 @@
 workflows:
-  sample-workflow:
-    name: Codemagic Sample Workflow
-    max_build_duration: 120
-    instance_type: mac_mini_m2
+  maui-ios-build:
+    name: ".NET MAUI iOS Build"
+    environment:
+      flutter: stable
+      xcode: latest
+      vars:
+        DOTNET_VERSION: "8.0" # Güncel .NET versiyonunu kullanın
+    scripts:
+      - name: .NET SDK’yı yükle
+        script: |
+          curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel 8.0
+          export PATH="$HOME/.dotnet:$PATH"
+      - name: iOS için MAUI uygulamasını derle
+        script: |
+          dotnet build YourProject.csproj -c Release -f net8.0-ios
+      - name: IPA dosyasını oluştur
+        script: |
+          dotnet publish YourProject.csproj -c Release -f net8.0-ios -o ./output
+    artifacts:
+      - output/**/*.ipa # IPA dosyasını kaydet
+    publishing:
+      app_store_connect:
+        auth: integration # Apple Developer hesabınızı Codemagic ile entegre edin
+        apple_id: "eacik@outlook.com.tr"
+        team_id: "B4JPYKJF5R"
+        bundle_id: "com.eas.omacalculator"
