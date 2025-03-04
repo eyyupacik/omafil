@@ -34,7 +34,7 @@ workflows:
         script: |
           export PATH=$HOME/.dotnet:$PATH
           dotnet restore
-            - name: Import certificate and provisioning profile
+      - name: Import certificate and provisioning profile
         script: |
           # Provisioning Profile'ı tanımla
           echo $PROVISIONING_PROFILE | base64 --decode > /tmp/profile.mobileprovision
@@ -52,7 +52,7 @@ workflows:
           security set-key-partition-list -S apple-tool:,apple: -s -k "" build.keychain
           security list-keychains -d user -s build.keychain
           security find-identity -p codesigning -v
-          
+
       - name: Build .NET MAUI iOS App
         script: |
           export PATH=$HOME/.dotnet:$PATH
