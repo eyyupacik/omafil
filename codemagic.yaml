@@ -21,7 +21,5 @@ workflows:
       - output/**/*.ipa # IPA dosyasını kaydet
     publishing:
       app_store_connect:
-        auth: integration # Apple Developer hesabınızı Codemagic ile entegre edin
-        apple_id: "eacik@outlook.com.tr"
-        team_id: "B4JPYKJF5R"
-        bundle_id: "com.eas.omacalculator"
+        auth: integration
+        submit_to_testflight: true
