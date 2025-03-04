@@ -3,6 +3,8 @@ workflows:
     name: iOS Release Workflow
     instance_type: mac_mini_m1
     environment:
+      groups:
+        - ios_credentials
       xcode: latest
       vars:
         DOTNET_VERSION: 8.0.100 # Kullanılacak .NET SDK versiyonu
@@ -34,6 +36,25 @@ workflows:
         script: |
           export PATH=$HOME/.dotnet:$PATH
           dotnet restore
+            - name: Import certificate and provisioning profile
+        script: |
+          # Provisioning Profile'ı tanımla
+          echo $PROVISIONING_PROFILE | base64 --decode > /tmp/profile.mobileprovision
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          cp /tmp/profile.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
+
+          # Keychain'e sertifikayı ekle
+          security create-keychain -p "" build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "" build.keychain
+          echo $CERTIFICATE | base64 --decode > /tmp/certificate.p12
+          security import /tmp/certificate.p12 -k build.keychain -P "$CERTIFICATE_PASSWORD" -T /usr/bin/codesign
+
+          # Keychain erişimini düzenle
+          security set-key-partition-list -S apple-tool:,apple: -s -k "" build.keychain
+          security list-keychains -d user -s build.keychain
+          security find-identity -p codesigning -v
+          
       - name: Build .NET MAUI iOS App
         script: |
           export PATH=$HOME/.dotnet:$PATH
