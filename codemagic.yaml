@@ -34,18 +34,18 @@ workflows:
           dotnet restore
       - name: Import certificate and provisioning profile
         script: |
-          # Kullanılacak keychain'leri listele
-          security list-keychains -d user
-      
-          # Varsayılan keychain olarak login.keychain-db kullan
-          security default-keychain -s login.keychain-db
-          security unlock-keychain -p "" login.keychain-db
-      
-          # Keychain erişim yetkilerini düzenle
-          security set-key-partition-list -S apple-tool:,apple: -s -k "" login.keychain-db
-      
-          # Kod imzalama kimliklerini listele (kontrol amaçlı)
-          security find-identity -p codesigning -v
+      - name: Create and use custom keychain
+        script: |
+            # Yeni bir keychain oluştur
+            security create-keychain -p "" ~/Library/Keychains/build.keychain
+            security default-keychain -s ~/Library/Keychains/build.keychain
+            security unlock-keychain -p "" ~/Library/Keychains/build.keychain
+        
+            # Keychain erişim yetkilerini düzenle
+            security set-key-partition-list -S apple-tool:,apple: -s -k "" ~/Library/Keychains/build.keychain
+        
+            # Kod imzalama kimliklerini listele
+            security find-identity -p codesigning -v
       - name: Build .NET MAUI iOS App
         script: |
           export PATH=$HOME/.dotnet:$PATH
