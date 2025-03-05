@@ -9,9 +9,9 @@ workflows:
     ios_signing:
       distribution_type: app_store # app_store, ad_hoc, development, enterprise
       bundle_identifier: com.eas.omacalculator # Uygulamanın Bundle ID'si
-      provisioning_profile: omapp  # Codemagic arayüzünde yüklediğin provisioning profile UUID'si
-      certificate: mea  # Codemagic arayüzünde yüklediğin sertifikayı belirt
-      certificate_password: Bz1EQDsq # Sertifika şifresi (eğer gerekiyorsa)
+      provisioning_profile: $PROVISIONING_PROFILE # Codemagic arayüzünde yüklediğin provisioning profile UUID'si
+      certificate: $CERTIFICATE # Codemagic arayüzünde yüklediğin sertifikayı belirt
+      certificate_password: $CERTIFICATE_PASSWORD # Sertifika şifresi (eğer gerekiyorsa)
     scripts:
       - name: Check if code signing certificates are installed
         script: |
