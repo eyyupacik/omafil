@@ -32,18 +32,6 @@ workflows:
         script: |
           export PATH=$HOME/.dotnet:$PATH
           dotnet restore
-      - name: Create and use custom keychain
-        script: |
-            # Yeni bir keychain oluştur
-            security create-keychain -p "" ~/Library/Keychains/build.keychain
-            security default-keychain -s ~/Library/Keychains/build.keychain
-            security unlock-keychain -p "" ~/Library/Keychains/build.keychain
-        
-            # Keychain erişim yetkilerini düzenle
-            security set-key-partition-list -S apple-tool:,apple: -s -k "" ~/Library/Keychains/build.keychain
-        
-            # Kod imzalama kimliklerini listele
-            security find-identity -p codesigning -v
       - name: Build .NET MAUI iOS App
         script: |
           export PATH=$HOME/.dotnet:$PATH
