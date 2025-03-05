@@ -8,7 +8,7 @@ workflows:
         DOTNET_VERSION: 8.0.100 # Kullanılacak .NET SDK versiyonu
     scripts:
       - name: Check if code signing certificates are installed
-          script: |
+        script: |
             security find-identity -v -p codesigning
             if [ $? -ne 0 ]; then
               echo "No valid code signing certificates found!"
