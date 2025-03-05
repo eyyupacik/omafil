@@ -32,8 +32,6 @@ workflows:
         script: |
           export PATH=$HOME/.dotnet:$PATH
           dotnet restore
-      - name: Import certificate and provisioning profile
-        script: |
       - name: Create and use custom keychain
         script: |
             # Yeni bir keychain oluştur
