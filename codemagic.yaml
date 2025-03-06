@@ -6,12 +6,9 @@ workflows:
       xcode: latest
       vars:
         DOTNET_VERSION: 8.0.100 # Kullanılacak .NET SDK versiyonu
-    ios_signing:
-      distribution_type: app_store # app_store, ad_hoc, development, enterprise
-      bundle_identifier: com.eas.omacalculator # Uygulamanın Bundle ID'si
-      provisioning_profile: $PROVISIONING_PROFILE # Codemagic arayüzünde yüklediğin provisioning profile UUID'si
-      certificate: $CERTIFICATE # Codemagic arayüzünde yüklediğin sertifikayı belirt
-      certificate_password: $CERTIFICATE_PASSWORD # Sertifika şifresi (eğer gerekiyorsa)
+      ios_signing:
+        distribution_type: app_store # app_store, ad_hoc, development, enterprise
+        bundle_identifier: com.eas.omacalculator # Uygulamanın Bundle ID'si
     scripts:
       - name: Check if code signing certificates are installed
         script: |
