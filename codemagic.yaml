@@ -42,9 +42,27 @@ workflows:
         script: |
           export PATH=$HOME/.dotnet:$PATH
           dotnet restore
-      - name: Build .NET MAUI iOS App
-        script: |
-          export PATH=$HOME/.dotnet:$PATH
-          dotnet publish -f:net8.0-ios -c:Release -p:RuntimeIdentifier=ios-arm64 -p:ArchiveOnBuild=true -p:BuildIpa=true
+      - name: Build the app
+      script: | 
+        LATEST_BUILD_NUMBER=$(app-store-connect get-latest-testflight-build-number "$APP_STORE_APPLE_ID")
+        if [ -z $LATEST_BUILD_NUMBER ]; then
+          UPDATED_BUILD_NUMBER=$BUILD_NUMBER
+        else
+          UPDATED_BUILD_NUMBER=$(($LATEST_BUILD_NUMBER + 1))
+        fi
+          
+        CERT_NAME=$(keychain list-certificates | jq -r '.[] | .common_name')
+        PROFILE_NAME=$(find ~/Library/MobileDevice/Provisioning\ Profiles -name "*.mobileprovision" -execdir sh -c '/usr/libexec/PlistBuddy -c "print :Name" /dev/stdin <<< $(security cms -D -i {})' \;)
+          
+        cd src
+        $DOTNET publish -f net6.0-ios \
+          -c Release \
+          -p:BuildIpa=True \
+          -p:ApplicationDisplayVersion="1.0.0" \
+          -p:ApplicationVersion=$UPDATED_BUILD_NUMBER \
+          -p:RuntimeIdentifier=ios-arm64 \
+          -p:CodesignKey="$CERT_NAME" \
+          -p:CodesignProvision="$PROFILE_NAME" \
+          -o ../artifacts
     artifacts:
       - $(find . -name "*.ipa")
