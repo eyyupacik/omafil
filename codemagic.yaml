@@ -7,7 +7,7 @@ workflows:
       vars:
         DOTNET_VERSION: 8.0.100 # Kullanılacak .NET SDK versiyonu
       ios_signing:
-        distribution_type: app_store # app_store, ad_hoc, development, enterprise
+        distribution_type: add_hoc # app_store, ad_hoc, development, enterprise
         bundle_identifier: com.eas.omacalculator # Uygulamanın Bundle ID'si
     scripts:
       - name: Check if code signing certificates are installed
