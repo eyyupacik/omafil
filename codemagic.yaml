@@ -5,17 +5,21 @@ workflows:
     environment:
       xcode: latest
       vars:
-        DOTNET_VERSION: 8.0.100
-        APP_STORE_CONNECT_ISSUER_ID: $APP_STORE_CONNECT_ISSUER_ID
+        DOTNET_VERSION: 8.0.100 # Kullanılacak .NET SDK versiyonu
+		APP_STORE_CONNECT_ISSUER_ID: $APP_STORE_CONNECT_ISSUER_ID
         APP_STORE_CONNECT_KEY_ID: $APP_STORE_CONNECT_KEY_ID
         APP_STORE_CONNECT_PRIVATE_KEY: $APP_STORE_CONNECT_PRIVATE_KEY
       ios_signing:
-        distribution_type: app_store
-        bundle_identifier: com.eas.omacalculator
+        distribution_type: app_store # app_store, ad_hoc, development, enterprise
+        bundle_identifier: com.eas.omacalculator # Uygulamanın Bundle ID'si
     scripts:
       - name: Check if code signing certificates are installed
         script: |
-          security find-identity -v -p codesigning
+            security find-identity -v -p codesigning
+            if [ $? -ne 0 ]; then
+              echo "No valid code signing certificates found!"
+              exit 1
+            fi
       - name: Install .NET SDK
         script: |
           wget https://dot.net/v1/dotnet-install.sh
@@ -28,10 +32,15 @@ workflows:
           export PATH=$HOME/.dotnet:$HOME/.dotnet/tools:$PATH
           dotnet workload install maui-ios --ignore-failed-sources
           dotnet workload restore
-      - name: Debug Dotnet Path
+          dotnet --info
+      - name: Check Installed Workloads
         script: |
-          echo "DOTNET PATH: $DOTNET"
-          which dotnet
+          export PATH=$HOME/.dotnet:$HOME/.dotnet/tools:$PATH
+          dotnet workload list
+      - name: Check .NET SDK
+        script: |
+          export PATH=$HOME/.dotnet:$PATH
+          dotnet --info
       - name: Restore Dependencies
         script: |
           export PATH=$HOME/.dotnet:$PATH
@@ -45,26 +54,18 @@ workflows:
             UPDATED_BUILD_NUMBER=$(($LATEST_BUILD_NUMBER + 1))
           fi
 
-          CERT_NAME=$(security find-identity -v -p codesigning | awk -F'"' '{print $2}' | head -n 1)
-          PROFILE_PATH=$(find ~/Library/MobileDevice/Provisioning\ Profiles -name "*.mobileprovision" | head -n 1)
+          CERT_NAME=$(keychain list-certificates | jq -r '.[] | .common_name')
+          PROFILE_NAME=$(find ~/Library/MobileDevice/Provisioning\ Profiles -name "*.mobileprovision" -execdir sh -c '/usr/libexec/PlistBuddy -c "print :Name" /dev/stdin <<< $(security cms -D -i {})' \;)
 
-          if [ -z "$CERT_NAME" ]; then
-            echo "No valid certificate found!"
-            exit 1
-          fi
-          if [ -z "$PROFILE_PATH" ]; then
-            echo "No valid provisioning profile found!"
-            exit 1
-          fi
-
-          dotnet publish -f net6.0-ios \
+          cd src
+          $DOTNET publish -f net6.0-ios \
             -c Release \
             -p:BuildIpa=True \
             -p:ApplicationDisplayVersion="1.0.0" \
             -p:ApplicationVersion=$UPDATED_BUILD_NUMBER \
             -p:RuntimeIdentifier=ios-arm64 \
             -p:CodesignKey="$CERT_NAME" \
-            -p:CodesignProvision="$PROFILE_PATH" \
+            -p:CodesignProvision="$PROFILE_NAME" \
             -o ../artifacts
     artifacts:
       - $(find . -name "*.ipa")
