@@ -20,6 +20,26 @@ workflows:
               echo "No valid code signing certificates found!"
               exit 1
             fi
+      - name: Check if code signing certificates are installed
+        script: |
+          security find-identity -v -p codesigning
+          if [ $? -ne 0 ]; then
+            echo "No valid code signing certificates found!"
+            exit 1
+          fi
+
+          echo "Listing provisioning profiles..."
+          ls -la ~/Library/MobileDevice/Provisioning\ Profiles/
+
+          echo "Provisioning profile details:"
+          for PROFILE in ~/Library/MobileDevice/Provisioning\ Profiles/*.mobileprovision; do
+            if [ -f "$PROFILE" ]; then
+              echo "---------------------------"
+              echo "Profile: $PROFILE"
+              security cms -D -i "$PROFILE" | /usr/libexec/PlistBuddy -c "Print :Name" /dev/stdin
+              security cms -D -i "$PROFILE" | /usr/libexec/PlistBuddy -c "Print :UUID" /dev/stdin
+            fi
+          done
       - name: Install .NET SDK
         script: |
           wget https://dot.net/v1/dotnet-install.sh
