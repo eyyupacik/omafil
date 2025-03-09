@@ -55,4 +55,4 @@ workflows:
             -p:CodesignProvision="$PROFILE_NAME" \
             -o ../artifacts
     artifacts:
-        - $(find . -name "*.ipa")
+        - ./artifacts/*.ipa
