@@ -57,7 +57,7 @@ workflows:
             -p:CodesignProvision="$PROFILE_NAME" \
             -o ../artifacts
     artifacts:
-        - ./artifacts/*.ipa
+        - /Users/builder/artifacts/OCC.ipa
     publishing:
       app_store_connect:
         auth: integration
