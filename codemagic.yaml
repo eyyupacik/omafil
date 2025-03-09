@@ -50,7 +50,7 @@ workflows:
           $DOTNET publish -f net8.0-ios \
             -c Release \
             -p:BuildIpa=True \
-            -p:ApplicationDisplayVersion="1.0.0" \
+            -p:ApplicationDisplayVersion="3.0.0" \
             -p:ApplicationVersion=$UPDATED_BUILD_NUMBER \
             -p:RuntimeIdentifier=ios-arm64 \
             -p:CodesignKey="$CERT_NAME" \
