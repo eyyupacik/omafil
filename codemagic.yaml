@@ -41,6 +41,10 @@ workflows:
         script: |
           export PATH=$HOME/.dotnet:$PATH
           dotnet --info
+      - name: Check .NET Installation
+        script: |
+          which dotnet || echo ".NET is not installed!"
+          dotnet --version || echo "Failed to get .NET version!"
       - name: Restore Dependencies
         script: |
           export PATH=$HOME/.dotnet:$PATH
@@ -58,7 +62,7 @@ workflows:
           PROFILE_NAME=$(find ~/Library/MobileDevice/Provisioning\ Profiles -name "*.mobileprovision" -execdir sh -c '/usr/libexec/PlistBuddy -c "print :Name" /dev/stdin <<< $(security cms -D -i {})' \;)
 
           cd src
-          $DOTNET publish -f net6.0-ios \
+          $DOTNET publish -f net8.0-ios \
             -c Release \
             -p:BuildIpa=True \
             -p:ApplicationDisplayVersion="1.0.0" \
