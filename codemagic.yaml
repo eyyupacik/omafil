@@ -5,10 +5,10 @@ workflows:
     environment:
       xcode: latest
       vars:
-        DOTNET_VERSION: 8.0.100 # Kullanılacak .NET SDK versiyonu
-	APP_STORE_CONNECT_ISSUER_ID: $APP_STORE_CONNECT_ISSUER_ID
+        DOTNET_VERSION: 8.0.100 
         APP_STORE_CONNECT_KEY_ID: $APP_STORE_CONNECT_KEY_ID
         APP_STORE_CONNECT_PRIVATE_KEY: $APP_STORE_CONNECT_PRIVATE_KEY
+        APP_STORE_CONNECT_ISSUER_ID: $APP_STORE_CONNECT_ISSUER_ID
       ios_signing:
         distribution_type: app_store # app_store, ad_hoc, development, enterprise
         bundle_identifier: com.eas.omacalculator # Uygulamanın Bundle ID'si
